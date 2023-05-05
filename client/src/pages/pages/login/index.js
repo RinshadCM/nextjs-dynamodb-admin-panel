@@ -1,5 +1,9 @@
 // ** React Imports
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import {login,authenticate,isAuthenticated} from "../../../../actions/authentication";
+import Router from "next/router";
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+
 
 // ** Next Imports
 import Link from 'next/link'
@@ -68,9 +72,9 @@ const LoginPage = () => {
   const theme = useTheme()
   const router = useRouter()
 
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+  // const handleChange = prop => event => {
+  //   setValues({ ...values, [prop]: event.target.value })
+  // }
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
@@ -79,6 +83,61 @@ const LoginPage = () => {
   const handleMouseDownPassword = event => {
     event.preventDefault()
   }
+
+
+
+  const [info,setInfo] = useState({email:"",password:"",error:"",loading:false,message:"",showForm:true});
+
+    const {email,password,error,loading,message,showForm} = info
+
+
+    useEffect(()=>{
+        isAuthenticated() && Router.push(`/`)
+    },[])
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        // console.table({ name, email, password, error, loading, message, showForm });
+        setInfo({ ...info, loading:true, error:false });
+        const user = {email, password };
+        console.log(user);
+
+        login(user).then(data => {
+
+            // console.log("data.error",data.name)
+
+            if (data.error) {
+                setInfo({ ...info, error: data.error, loading: false });
+            } else {
+                // user token to cookie
+                // user information to localstorage
+                // authenticate the user
+                authenticate(data,()=>{
+                    if(isAuthenticated() && isAuthenticated().role === 1){
+                        // Router.push(`/adminDashboard`)
+                        Router.push(`/adminDashboard`)
+
+                    } else {
+                        // Router.push(`/userDashboard`)
+                        Router.push(`/`)
+                    }
+                })
+                
+            }
+        });
+    };
+
+    const handleChange= name =>(event)=>{
+        setInfo({...info,error:false,[name]: event.target.value});
+    }
+
+    const showLoading = () =>(loading ? <div className= "alert alert-success">Loading.....</div> : "");
+    const showError = () =>(error ? <div className= "alert alert-danger">{error}</div> : "");
+    
+    const showMessage = () =>(message ? <div className= "alert alert-primary">{message}</div> : "");
+
+
+
 
   return (
     <Box className='content-center'>
@@ -163,13 +222,13 @@ const LoginPage = () => {
             </Typography>
             <Typography variant='body2'>Please sign-in to your account and start the adventure</Typography>
           </Box>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='email' label='Email' sx={{ marginBottom: 4 }} />
+          <form noValidate autoComplete='off' onSubmit={handleSubmit}>
+            <TextField autoFocus fullWidth id='email' value={email} onChange={handleChange("email")} label='Email' sx={{ marginBottom: 4 }} />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
               <OutlinedInput
                 label='Password'
-                value={values.password}
+                value={password}
                 id='auth-login-password'
                 onChange={handleChange('password')}
                 type={values.showPassword ? 'text' : 'password'}
@@ -199,8 +258,9 @@ const LoginPage = () => {
               fullWidth
               size='large'
               variant='contained'
+              type='submit'
               sx={{ marginBottom: 7 }}
-              onClick={() => router.push('/')}
+              // onClick={() => router.push('/')}
             >
               Login
             </Button>

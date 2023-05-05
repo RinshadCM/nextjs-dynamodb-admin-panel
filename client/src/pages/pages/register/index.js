@@ -97,7 +97,7 @@ const RegisterPage = () => {
   const { name, email, password, error, loading, message, showForm } = info
 
   useEffect(() => {
-    // isAuthenticated() && Router.push(`/`)
+    isAuthenticated() && Router.push(`/`)
   }, [])
 
   const handleSubmit = event => {
