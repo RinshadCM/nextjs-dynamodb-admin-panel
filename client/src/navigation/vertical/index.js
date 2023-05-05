@@ -18,10 +18,15 @@ const navigation = () => {
       path: '/'
     },
     {
-      title: 'Account Settings',
+      title: 'Users',
       icon: AccountCogOutline,
-      path: '/account-settings'
+      path: '/users'
     },
+    // {
+    //   title: 'Account Settings',
+    //   icon: AccountCogOutline,
+    //   path: '/account-settings'
+    // },
     {
       sectionTitle: 'Pages'
     },

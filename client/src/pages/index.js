@@ -93,9 +93,9 @@ const Dashboard = () => {
           <Grid item xs={12} md={12} lg={8}>
             <DepositWithdraw />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Table />
-          </Grid>
+          </Grid> */}
         </Grid>
       </ApexChartWrapper>
     </PrivateRoute>
