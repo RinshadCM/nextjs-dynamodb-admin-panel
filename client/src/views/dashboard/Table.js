@@ -9,6 +9,15 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import Typography from '@mui/material/Typography'
 import TableContainer from '@mui/material/TableContainer'
+import CardActions from '@mui/material/CardActions'
+import Button from '@mui/material/Button'
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import React from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 
 const rows = [
   {
@@ -19,7 +28,7 @@ const rows = [
     salary: '$19586.23',
     email: 'eebsworth2m@sbwire.com',
     designation: 'Human Resources Assistant'
-  },
+  }
   // {
   //   age: 61,
   //   date: '09/23/2016',
@@ -94,6 +103,60 @@ const statusObj = {
 }
 
 const DashboardTable = () => {
+  const [userList, setuserList] = useState([])
+
+  // useEffect(() => {
+  //   console.log(userList);
+  // }, [userList]);
+
+  useEffect(() => {
+    axios({
+      method: 'get',
+      withCredentials: true,
+      url: 'http://localhost:4000/get-companies'
+    }).then(data => {
+      console.log(data)
+      setuserList(data.data)
+    })
+  }, [])
+
+  useEffect(() => {
+    console.log(userList)
+  })
+
+  const message = () => {
+    return (
+      <div className='flex items-center justify-betwen'>
+        <div className='text-white'>{/* <AiFillCheckCircle /> */}</div>
+        <div className=' ml-2 font-inter text-white text-[14px] '>Details deleted successfully!</div>
+      </div>
+    )
+  }
+
+  const notify = () => {
+    toast(message, {
+      position: 'top-center',
+      style: {
+        width: 'fit-content',
+        borderRadius: '9999px',
+        fontFamily: 'Inter',
+        backgroundColor: 'black'
+      }
+    })
+    // Router.push("/userDashboard/companies");
+  }
+
+  const handleDelete = async key => {
+    notify()
+    console.log(key)
+    await axios({
+      method: 'delete',
+      url: `http://localhost:4000/delete-company/${key}`
+    })
+    // Router.push("/userDashboard/companies");
+    window.location.reload()
+  }
+
   return (
     <Card>
       <TableContainer>
@@ -102,36 +165,40 @@ const DashboardTable = () => {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Salary</TableCell>
-              <TableCell>Age</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Role</TableCell>
+              {/* <TableCell>Age</TableCell> */}
+              <TableCell className='action'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow hover key={row.name} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
+            {userList.map(element => (
+              <TableRow hover key={element.name} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
                 <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Typography sx={{ fontWeight: 500, fontSize: '0.875rem !important' }}>{row.name}</Typography>
-                    <Typography variant='caption'>{row.designation}</Typography>
+                    <Typography sx={{ fontWeight: 500, fontSize: '0.875rem !important' }}>
+                      {element.fname} {element.lname}
+                    </Typography>
+                    {/* <Typography variant='caption'>{element.designation}</Typography> */}
                   </Box>
                 </TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.date}</TableCell>
-                <TableCell>{row.salary}</TableCell>
-                <TableCell>{row.age}</TableCell>
+                <TableCell>{element.email}</TableCell>
+                <TableCell>{element.roles}</TableCell>
+                {/* <TableCell>{element.age}</TableCell> */}
                 <TableCell>
-                  <Chip
-                    label={row.status}
-                    color={statusObj[row.status].color}
+                  <CardActions className='card-action-dense' sx={{ width: '100%' }}>
+                  <Button variant='outlined'>Edit</Button>
+                    <Button variant="outlined" color="error" onClick={() => handleDelete(element.email)} startIcon={<DeleteIcon />}>Delete</Button>
+                  </CardActions>
+                  {/* <Chip
+                    label={element.status}
+                    // color={statusObj[element.status].color}
                     sx={{
                       height: 24,
                       fontSize: '0.75rem',
                       textTransform: 'capitalize',
                       '& .MuiChip-label': { fontWeight: 500 }
                     }}
-                  />
+                  /> */}
                 </TableCell>
               </TableRow>
             ))}

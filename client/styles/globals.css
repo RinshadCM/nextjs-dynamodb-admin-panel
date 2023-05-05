@@ -22,3 +22,6 @@ code:not([class*='language-']):after {
 code[class*='language-'] {
   padding: 0;
 }
+.action{
+  padding-left: 4.5rem !important; 
+}
