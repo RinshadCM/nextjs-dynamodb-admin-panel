@@ -18,81 +18,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import React from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import { Padding } from '@mui/icons-material'
 
-const rows = [
-  {
-    age: 27,
-    status: 'current',
-    date: '09/27/2018',
-    name: 'Sally Quinn',
-    salary: '$19586.23',
-    email: 'eebsworth2m@sbwire.com',
-    designation: 'Human Resources Assistant'
-  }
-  // {
-  //   age: 61,
-  //   date: '09/23/2016',
-  //   salary: '$23896.35',
-  //   status: 'professional',
-  //   name: 'Margaret Bowers',
-  //   email: 'kocrevy0@thetimes.co.uk',
-  //   designation: 'Nuclear Power Engineer'
-  // },
-  // {
-  //   age: 59,
-  //   date: '10/15/2017',
-  //   name: 'Minnie Roy',
-  //   status: 'rejected',
-  //   salary: '$18991.67',
-  //   email: 'ediehn6@163.com',
-  //   designation: 'Environmental Specialist'
-  // },
-  // {
-  //   age: 30,
-  //   date: '06/12/2018',
-  //   status: 'resigned',
-  //   salary: '$19252.12',
-  //   name: 'Ralph Leonard',
-  //   email: 'dfalloona@ifeng.com',
-  //   designation: 'Sales Representative'
-  // },
-  // {
-  //   age: 66,
-  //   status: 'applied',
-  //   date: '03/24/2018',
-  //   salary: '$13076.28',
-  //   name: 'Annie Martin',
-  //   designation: 'Operator',
-  //   email: 'sganderton2@tuttocitta.it'
-  // },
-  // {
-  //   age: 33,
-  //   date: '08/25/2017',
-  //   salary: '$10909.52',
-  //   name: 'Adeline Day',
-  //   status: 'professional',
-  //   email: 'hnisius4@gnu.org',
-  //   designation: 'Senior Cost Accountant'
-  // },
-  // {
-  //   age: 61,
-  //   status: 'current',
-  //   date: '06/01/2017',
-  //   salary: '$17803.80',
-  //   name: 'Lora Jackson',
-  //   designation: 'Geologist',
-  //   email: 'ghoneywood5@narod.ru'
-  // },
-  // {
-  //   age: 22,
-  //   date: '12/03/2017',
-  //   salary: '$12336.17',
-  //   name: 'Rodney Sharp',
-  //   status: 'professional',
-  //   designation: 'Cost Accountant',
-  //   email: 'dcrossman3@google.co.jp'
-  // }
-]
 
 const statusObj = {
   applied: { color: 'info' },
@@ -158,6 +85,11 @@ const DashboardTable = () => {
   }
 
   return (
+    <>
+      <Button href='/add' variant='contained' style={{marginBottom:'1.5rem'}}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="#fff" d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6h-2Z"/></svg>
+      Add User
+      </Button>
     <Card>
       <TableContainer>
         <Table sx={{ minWidth: 800 }} aria-label='table in dashboard'>
@@ -186,7 +118,7 @@ const DashboardTable = () => {
                 {/* <TableCell>{element.age}</TableCell> */}
                 <TableCell>
                   <CardActions className='card-action-dense' sx={{ width: '100%' }}>
-                  <Button variant='outlined'>Edit</Button>
+                  <Button variant='outlined' href={`/edit/${element.email}`} passHref>Edit</Button>
                     <Button variant="outlined" color="error" onClick={() => handleDelete(element.email)} startIcon={<DeleteIcon />}>Delete</Button>
                   </CardActions>
                   {/* <Chip
@@ -206,6 +138,7 @@ const DashboardTable = () => {
         </Table>
       </TableContainer>
     </Card>
+    </>
   )
 }
 

@@ -55,6 +55,7 @@ app.get("/", (req, res) => {
 // get a single company by using _id
 app.get("/get-company", (req, res) => {
   try {
+    console.log(req.query);
     if (req.query.email !== undefined) {
       const params = {
         TableName: "details",
