@@ -118,7 +118,7 @@ const DashboardTable = () => {
                 {/* <TableCell>{element.age}</TableCell> */}
                 <TableCell>
                   <CardActions className='card-action-dense' sx={{ width: '100%' }}>
-                  <Button variant='outlined' href={`/edit/${element.email}`} passHref>Edit</Button>
+                  <Button variant='outlined' href={`/users/${element.email}`} passHref>Edit</Button>
                     <Button variant="outlined" color="error" onClick={() => handleDelete(element.email)} startIcon={<DeleteIcon />}>Delete</Button>
                   </CardActions>
                   {/* <Chip
