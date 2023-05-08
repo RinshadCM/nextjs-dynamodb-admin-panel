@@ -12,6 +12,7 @@ import TableContainer from '@mui/material/TableContainer'
 import CardActions from '@mui/material/CardActions'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2'
 
 
 import { useState, useEffect } from 'react'
@@ -73,16 +74,38 @@ const DashboardTable = () => {
     // Router.push("/userDashboard/companies");
   }
 
-  const handleDelete = async key => {
-    notify()
-    console.log(key)
-    await axios({
-      method: 'delete',
-      url: `http://localhost:4000/delete-company/${key}`
+  const handleDelete = key => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        notify()
+        console.log(key)
+        axios({
+          method: 'delete',
+          url: `http://localhost:4000/delete-company/${key}`
+        }).then(() => {
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'Your file has been deleted.',
+            icon: 'success',
+            onAfterClose: () => {
+              location.reload();
+            }
+          });
+        }).catch(error => {
+          console.log(error);
+        });
+      }
     })
-    // Router.push("/userDashboard/companies");
-    window.location.reload()
   }
+  
 
   return (
     <>
@@ -118,8 +141,8 @@ const DashboardTable = () => {
                 {/* <TableCell>{element.age}</TableCell> */}
                 <TableCell>
                   <CardActions className='card-action-dense' sx={{ width: '100%' }}>
-                  <Button variant='outlined' href={`/users/${element.email}`} passHref>Edit</Button>
-                    <Button variant="outlined" color="error" onClick={() => handleDelete(element.email)} startIcon={<DeleteIcon />}>Delete</Button>
+                  <Button variant='outlined' href={`/users/${element.email}`} passHref><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#1971c2" d="M6 22q-.825 0-1.413-.588T4 20V4q0-.825.588-1.413T6 2h8l6 6v4h-2V9h-5V4H6v16h6v2H6Zm0-2V4v16Zm12.3-5.475l1.075 1.075l-3.875 3.85v1.05h1.05l3.875-3.85l1.05 1.05l-4.3 4.3H14v-3.175l4.3-4.3Zm3.175 3.175L18.3 14.525l1.45-1.45q.275-.275.7-.275t.7.275l1.775 1.775q.275.275.275.7t-.275.7l-1.45 1.45Z"/></svg></Button>
+                    <Button style={{marginLeft:"1rem"}} variant="outlined" color="error" onClick={() => handleDelete(element.email)}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#c92a2a" d="M7 21q-.825 0-1.413-.588T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.588 1.413T17 21H7ZM17 6H7v13h10V6ZM9 17h2V8H9v9Zm4 0h2V8h-2v9ZM7 6v13V6Z"/></svg></Button>
                   </CardActions>
                   {/* <Chip
                     label={element.status}

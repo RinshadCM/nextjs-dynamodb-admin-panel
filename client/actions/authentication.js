@@ -35,7 +35,7 @@ export const login = (user) => {
 export const logout =(next) =>{
     removeCookie('token')
     removeLocalStorage('user')
-    next();
+    // next();
 
     return fetch(`http://localhost:4000/api/logout`,{
         method: "GET"
