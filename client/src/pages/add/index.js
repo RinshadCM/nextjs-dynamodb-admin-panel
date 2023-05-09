@@ -142,12 +142,6 @@ const TabAccount = () => {
       url: 'http://localhost:4000/create-company'
     })
 
-    // if (response.status === 201) {
-    //   Router.push(
-    //     "/dashboard/companies/[id]",
-    //     `/dashboard/companies/${response.data._id}`
-    //   );
-    // }
     setuserList(userList => [...userList, response.data])
     setuserEmail('')
     setPass('')
@@ -186,7 +180,7 @@ const TabAccount = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              type='email'
+              type='text'
               label='Email'
               placeholder=''
               value={userEmail}

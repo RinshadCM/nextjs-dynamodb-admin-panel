@@ -1,6 +1,6 @@
 const themeConfig = {
   // ** Layout Configs
-  templateName: 'Materio' /* App Name */,
+  templateName: 'Administer' /* App Name */,
   mode: 'light' /* light | dark */,
   contentWidth: 'boxed' /* full | boxed */,
   // ** Routing Configs

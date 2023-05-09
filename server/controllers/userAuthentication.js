@@ -70,7 +70,7 @@ exports.login = async (req, res) => {
         const result = await promisifiedScan(params);
 
         if (result.Count === 0) {
-            return res.status(400).json({ error: "You forgot to 'SignUp'.Email does not exist" });
+            return res.status(400).json({ error: "Email does not exist" });
         }
 
         const user = result.Items[0];

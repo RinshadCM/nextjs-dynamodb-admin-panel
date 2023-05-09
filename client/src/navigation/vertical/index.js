@@ -29,26 +29,26 @@ const navigation = () => {
     //   path: '/account-settings'
     // },
     {
-      sectionTitle: 'Pages'
+      sectionTitle: 'Menu'
     },
-    {
-      title: 'Login',
-      icon: Login,
-      path: '/pages/login/',
-      openInNewTab: true
-    },
-    {
-      title: 'Register',
-      icon: AccountPlusOutline,
-      path: '/pages/register',
-      openInNewTab: true
-    },
-    {
-      title: 'Error',
-      icon: AlertCircleOutline,
-      path: '/pages/error',
-      openInNewTab: true
-    },
+    // {
+    //   title: 'Login',
+    //   icon: Login,
+    //   path: '/pages/login/',
+    //   openInNewTab: true
+    // },
+    // {
+    //   title: 'Register',
+    //   icon: AccountPlusOutline,
+    //   path: '/pages/register',
+    //   openInNewTab: true
+    // },
+    // {
+    //   title: 'Error',
+    //   icon: AlertCircleOutline,
+    //   path: '/pages/error',
+    //   openInNewTab: true
+    // },
     {
       title: 'Logout',
       icon: Logout,
